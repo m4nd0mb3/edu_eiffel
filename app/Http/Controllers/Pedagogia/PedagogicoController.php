@@ -40,6 +40,7 @@ use App\Models\Relatar;
 use Maatwebsite\Excel\Excel;
 
 
+use App\Exports\CardenetaExport;
 use App\Exports\NotaExport;
 use App\Exports\ProfExport;
 use App\Exports\ProvaExport;
@@ -504,7 +505,7 @@ function tipo_boletim(){
     $disciplinas = Emark::where("liceu", "=", "$id->liceu")->get();
     $orie = DMark::where("liceu", "=", "$id->liceu")->get();
     $c = CMark::where("liceu", "=", "$id->liceu")->get();
-    $n = NdalatandoEMark::where("liceu", "=", "$id->liceu")->get();
+    $n = EMark::where("liceu", "=", "$id->liceu")->get();
     
     $count_estudantes = count($disciplinas);
     $count_faltas = count($orie);
@@ -1448,6 +1449,40 @@ function ver_nota_pct(){
             return $ArrangeDisciplina[$i];
         }
       }
+
+    public function imprimir_cardeneta($liceu, $classe, $trimestre_id) {
+        return $this->excel->download(new CardenetaExport($liceu, $classe, $trimestre_id), 'caderneta_trimestral.xlsx');
+        // return view('pedagogia.caderneta_trimestral', ['provas'=>1]);
+    }
+
+    public function listar_cardeneta($liceu) {
+        $id = Auth::id();
+
+        $cardenetas = DB::table('d_marks')
+            // ->join('liceus', 'liceus.id', '=', 'd_marks.liceu')
+            // ->join('classes', 'classes.id', '=', 'd_marks.classe')
+            ->select('d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe', DB::raw('count(*) as total_provas'))
+            ->where('d_marks.liceu', '=', $liceu)
+            ->groupBy('d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe')
+            ->get();
+
+        $classes = [
+            1 => '10 A',
+            2 => '10 B',
+            3 => '11 A',
+            4 => '11 B',
+            5 => '12 A',
+            6 => '12 B'
+        ];
+
+        return view(
+            'pedagogia.listar_cardenetas',
+            [
+                'cardenetas' => $cardenetas,
+                'classes' => $classes
+            ]
+        );
+    }
 
     public function imprimir_boletim($classe){
 
