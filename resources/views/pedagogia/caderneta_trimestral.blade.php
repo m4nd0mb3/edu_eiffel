@@ -61,7 +61,11 @@
         transform: rotate(180deg);
         white-space: nowrap;
                 ">{{$turma}}</th>
-            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. PORTUGUESA</th>
+            @foreach ($disciplinas as $disciplina)
+                <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">{{$disciplina->disciplina}}</th>
+                
+            @endforeach
+            {{-- <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. PORTUGUESA</th>
             <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. INGLESA</th>
             <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. FRANCESA</th>
             <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MATEMÁTICA</th>
@@ -71,10 +75,10 @@
             <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">QUIMICA</th>
             <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">BIOLOGIA</th>
             <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">GEOMETRIA DESCRITIVA</th>
-            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">DNL</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">DNL</th>--}}
             <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">ATRASOS</th>
             <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">TOTAL DE FALTAS</th>
-            <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">F. JUSTIFICADAS</th>
+            <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">F. JUSTIFICADAS</th> 
 
 
         </tr>
@@ -136,6 +140,8 @@
                     {{ $loop->iteration }}</td>
                 <td style="border: 0.05pt solid #000000; font-family: 'Times New Roman', Times, serif; width:5cm;">
                     {{ $nota->nome_estudante }}</td>
+                <td style="border: 0.05pt solid #000000; font-family: 'Times New Roman', Times, serif; width:1cm;">
+                    {{$turma}}</td>
                 <!-- Adicione aqui as células das colunas restantes -->
             </tr>
         @endforeach

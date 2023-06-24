@@ -111,57 +111,101 @@ class CardenetaExport implements FromView, WithEvents
         // foreach ($avaliacoes as $avaliacao) {
         //     $datas_avaliacao[] = $avaliacao->data;
         // }
+        $disciplinas = [];
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%L. Portuguesa%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Inglês%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Francês%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Matematica%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Informática%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Educação Física%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Fisica%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Quimica%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Biologia%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Geometria Descritiva%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%DNL%')
+            ->first();
 
         foreach ($notas as $item) {
             $estudante = new stdClass();
             $estudante->nome_estudante = $item->nome_estudante;
 
-            // $estudante_avaliacoes = [];
-            // foreach ($datas_avaliacao as $data_avaliacao) {
-            //     $avaliacao_encontrada = false;
+            $estudante_avaliacoes = [];
+            foreach ($datas_avaliacao as $data_avaliacao) {
+                $avaliacao_encontrada = false;
 
-            //     foreach ($avaliacoes as $avaliacao) {
-            //         if ($avaliacao->estudante_id == $item->id && $avaliacao->data == $data_avaliacao->data) {
-            //             $estudante_avaliacoes[] = $avaliacao;
-            //             $avaliacao_encontrada = true;
-            //             break;
-            //         }
-            //     }
+                foreach ($avaliacoes as $avaliacao) {
+                    if ($avaliacao->estudante_id == $item->id && $avaliacao->data == $data_avaliacao->data) {
+                        $estudante_avaliacoes[] = $avaliacao;
+                        $avaliacao_encontrada = true;
+                        break;
+                    }
+                }
 
-            //     if (!$avaliacao_encontrada) {
-            //         // Adicionar avaliação com nota 0 para o aluno e a data de avaliação atual
-            //         $avaliacao_nula = new stdClass();
-            //         $avaliacao_nula->data = $data_avaliacao->data;
-            //         $avaliacao_nula->nota = 0;
-            //         $avaliacao_nula->estudante_id = $item->id;
-            //         $avaliacao_nula->total_provas = 0;
-            //         $estudante_avaliacoes[] = $avaliacao_nula;
-            //     }
-            // }
+                if (!$avaliacao_encontrada) {
+                    // Adicionar avaliação com nota 0 para o aluno e a data de avaliação atual
+                    $avaliacao_nula = new stdClass();
+                    $avaliacao_nula->data = $data_avaliacao->data;
+                    $avaliacao_nula->nota = 0;
+                    $avaliacao_nula->estudante_id = $item->id;
+                    $avaliacao_nula->total_provas = 0;
+                    $estudante_avaliacoes[] = $avaliacao_nula;
+                }
+            }
 
             // Calcular a média das notas
-            // $soma_notas = 0;
-            // foreach ($estudante_avaliacoes as $avaliacao) {
-            //     $soma_notas += $avaliacao->nota;
-            // }
-            // $media_notas = count($estudante_avaliacoes) > 0 ? $soma_notas / count($estudante_avaliacoes) : 0;
+            $soma_notas = 0;
+            foreach ($estudante_avaliacoes as $avaliacao) {
+                $soma_notas += $avaliacao->nota;
+            }
+            $media_notas = count($estudante_avaliacoes) > 0 ? $soma_notas / count($estudante_avaliacoes) : 0;
 
-            // $prova_professor = DB::table('d_marks')
-            //     ->select('estudante_id', 'nota', DB::raw('count(*) as total_provas'), DB::raw('MAX(id) as max_id'))
-            //     ->where('liceu', '=', $this->liceu)
-            //     ->where('classe', '=', $this->classe)
-            //     ->where('professor_id', '=', $id)
-            //     ->where('tipo_id', '=', 2)
-            //     ->where('trimestre_id', '=', $this->trimestre_id)
-            //     ->where('estudante_id', '=', $item->id)
-            //     ->groupBy('estudante_id', 'nota', 'trimestre_id', 'tipo_id', 'classe', 'liceu', 'professor_id')
-            //     ->orderByDesc('max_id')
-            //     ->first();
+            $prova_professor = DB::table('d_marks')
+                ->select('estudante_id', 'nota', DB::raw('count(*) as total_provas'), DB::raw('MAX(id) as max_id'))
+                ->where('liceu', '=', $this->liceu)
+                ->where('classe', '=', $this->classe)
+                ->where('tipo_id', '=', 2)
+                ->where('trimestre_id', '=', $this->trimestre_id)
+                ->where('estudante_id', '=', $item->id)
+                ->groupBy('estudante_id', 'nota', 'trimestre_id', 'tipo_id', 'classe', 'liceu', 'professor_id')
+                ->orderByDesc('max_id')
+                ->first();
 
-            // $estudante->avaliacoes = $estudante_avaliacoes;
-            // $estudante->mac = $media_notas;
-            // $estudante->prova_professor = $prova_professor ? $prova_professor->nota : 0;
-            // $estudante->ct = ($estudante->prova_professor + $media_notas)/2;
+            $estudante->avaliacoes = $estudante_avaliacoes;
+            $estudante->mac = $media_notas;
+            $estudante->prova_professor = $prova_professor ? $prova_professor->nota : 0;
+            $estudante->ct = ($estudante->prova_professor + $media_notas)/2;
             array_push($array, $estudante);
         }
 
@@ -181,7 +225,7 @@ class CardenetaExport implements FromView, WithEvents
                 'turma' => $classes[$this->classe],
                 'max_avaliacao' => $max_avaliacao->total_provas,
                 'trimestre_nome' => $trimestre->trimestre,
-                'nome_disciplina' => $disciplina->nome_disciplina
+                'disciplinas' => $disciplinas
             ]
         );
 
