@@ -23,7 +23,7 @@
                     font-size: 10pt
                     margin:0.35mm;
                     ">
-                DISCIPLINA:
+                DISCIPLINA: {{$nome_disciplina}}
             </th>
         </tr>
         <tr>
@@ -36,7 +36,7 @@
                     font-size: 10pt
                     margin:0.35mm;
                     ">
-                1º Trimestre
+                {{$trimestre_nome}}
             </th>
         </tr>
         <tr>
@@ -91,6 +91,12 @@
                 <td
                     style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
                     {{ $nota->mac }}</td>
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    {{ $nota->prova_professor }}</td>
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    {{ $nota->ct }}</td>
             </tr>
         @endforeach
     </tbody>

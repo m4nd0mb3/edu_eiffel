@@ -62,7 +62,7 @@ Route::prefix('professor')->name('professor.')->group(function(){
      
      Route::get('/create_boletim/{liceu}',[ProfessorController::class,'create_boletim'])->name('create_boletim');
      Route::get('/imprimir_boletim_t',[ProfessorController::class,'imprimir_boletim_t'])->name('imprimir_boletim_t');
-     Route::get('/imprimir_cardeneta/{liceu}/{mix_id}/{classe}/{data}/{trimestre_id}',[ProfessorController::class,'imprimir_cardeneta'])->name('imprimir_cardeneta');
+     Route::get('/imprimir_cardeneta/{liceu}/{mix_id}/{classe}/{trimestre_id}',[ProfessorController::class,'imprimir_cardeneta'])->name('imprimir_cardeneta');
      Route::post('/get_students_by_class',[ProfessorController::class,'get_students_by_class'])->name('get_students_by_class');
      
      Route::post('/enviar_nota/{liceu}/{classe}',[ProfessorController::class,'enviar_nota'])->name('enviar_nota');
