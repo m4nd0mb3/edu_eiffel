@@ -1,7 +1,7 @@
 <table border="1" style="font-family: 'Times New Roman', Times, serif;">
     <thead>
         <tr>
-            <th colspan="21"
+            <th colspan="{{5+($max_avaliacao * 2)}}"
                 style="
                     border: 0.05pt solid #000000;
                     font-family: 'Times New Roman', Times, serif;
@@ -14,7 +14,7 @@
             </th>
         </tr>
         <tr>
-            <th colspan="21"
+            <th colspan="{{5+($max_avaliacao * 2)}}"
                 style="
                     border: 0.05pt solid #000000;
                     font-family: 'Times New Roman', Times, serif;
@@ -23,11 +23,11 @@
                     font-size: 10pt
                     margin:0.35mm;
                     ">
-                DISCIPLINA:
+                DISCIPLINA: {{$nome_disciplina}}
             </th>
         </tr>
         <tr>
-            <th colspan="21"
+            <th colspan="{{5+($max_avaliacao * 2)}}"
                 style="
                     border: 0.05pt solid #000000;
                     font-family: 'Times New Roman', Times, serif;
@@ -36,7 +36,7 @@
                     font-size: 10pt
                     margin:0.35mm;
                     ">
-                1º Trimestre
+                {{$trimestre_nome}}
             </th>
         </tr>
         <tr>
@@ -48,38 +48,12 @@
                 style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif; width:5cm;">
                 NOME
             </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 1
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 2
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 3
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 4
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 5
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 6
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 7
-            </th>
-            <th colspan="2"
-                style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                AC 8
-            </th>
+            @for ($i = 0; $i < $max_avaliacao; $i++)
+                <th colspan="2"
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    AC {{$i+1}}
+                </th>
+            @endfor
             <th rowspan="2" style="border: 0.05pt solid #000000;">
                 MAC 1
             </th>
@@ -91,38 +65,12 @@
             </th>
         </tr>
         <tr>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Data</th>
-            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
-                Valor</th>
+            @for ($i = 0; $i < $max_avaliacao; $i++)
+                <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    Data</th>
+                <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    Valor</th>
+            @endfor
         </tr>
     </thead>
     <tbody>
@@ -140,6 +88,15 @@
                     <td style="border: 0.05pt solid #000000; font-family: 'Times New Roman', Times, serif;">
                         {{$avaliacao->nota}}</td>
                 @endforeach
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    {{ $nota->mac }}</td>
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    {{ $nota->prova_professor }}</td>
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    {{ $nota->ct }}</td>
             </tr>
         @endforeach
     </tbody>

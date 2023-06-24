@@ -698,9 +698,9 @@ class ProfessorController extends Controller
         return $pdf->download('sample.pdf');
     }
 
-    public function imprimir_cardeneta(Request $request, $liceu, $mix_id, $classe, $data, $trimestre_id)
+    public function imprimir_cardeneta(Request $request, $liceu, $mix_id, $classe, $trimestre_id)
     {
-        return $this->excel->download(new ProfExport($liceu, $mix_id, $classe, $data, $trimestre_id), 'caderneta_trimestral.xlsx');
+        return $this->excel->download(new ProfExport($liceu, $mix_id, $classe, $trimestre_id), 'caderneta_trimestral.xlsx');
     }
 
     function enviar_nota(Request $request, $liceu, $classe)
@@ -742,10 +742,12 @@ class ProfessorController extends Controller
         $cardenetas = DB::table('d_marks')
             // ->join('liceus', 'liceus.id', '=', 'd_marks.liceu')
             // ->join('classes', 'classes.id', '=', 'd_marks.classe')
-            ->select(DB::raw('DATE(created_at) as created_at'), 'trimestre_id', 'liceu', 'classe', 'mix_id', DB::raw('count(*) as total_provas'))
-            ->where('liceu', '=', $liceu)
-            ->where('professor_id', '=', $id)
-            ->groupBy(DB::raw('DATE(created_at)'), 'trimestre_id', 'liceu', 'classe', 'mix_id')
+            ->join('mix_d_p_s', 'mix_d_p_s.id', '=', 'd_marks.mix_id')
+            ->join('disciplinas', 'disciplinas.id', '=', 'mix_d_p_s.disciplina_id')
+            ->select('disciplinas.disciplina as disciplina','d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe', 'd_marks.mix_id', DB::raw('count(*) as total_provas'))
+            ->where('d_marks.liceu', '=', $liceu)
+            ->where('d_marks.professor_id', '=', $id)
+            ->groupBy('d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe', 'd_marks.mix_id')
             ->get();
         
         $classes = [

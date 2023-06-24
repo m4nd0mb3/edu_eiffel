@@ -24,7 +24,7 @@
                 <table class="table table-striped projects">
                     <thead>
                         <tr>
-                            <th style="color: red;">Data</th>
+                            <th style="color: red;">Trimestre</th>
                             <th style="color: red;">Número de provas</th>
                             <th style="color: red;">Disciplina</th>
                             <th style="color: red;">Classe</th>
@@ -39,37 +39,9 @@
 
 
 
-                                <td>{{ $cardeneta->created_at }}</td>
+                                <td>{{ $cardeneta->trimestre_id }}</td>
                                 <td>{{ $cardeneta->total_provas }}</td>
-                                <td>
-                                    @if ($cardeneta->mix_id == 1)
-                                        Matemática
-                                    @elseif($cardeneta->mix_id == 2)
-                                        Química
-                                    @elseif($cardeneta->mix_id == 3)
-                                        Fisica
-                                    @elseif($cardeneta->mix_id == 4)
-                                        L. Portuguesa
-                                    @elseif($cardeneta->mix_id == 5)
-                                        Francês
-                                    @elseif($cardeneta->mix_id == 6)
-                                        Inglês
-                                    @elseif($cardeneta->mix_id == 7)
-                                        Biologia
-                                    @elseif($cardeneta->mix_id == 8)
-                                        Geologia
-                                    @elseif($cardeneta->mix_id == 9)
-                                        Filosofia
-                                    @elseif($cardeneta->mix_id == 10)
-                                        Informática
-                                    @elseif($cardeneta->mix_id == 11)
-                                        Geometria Descritiva
-                                    @elseif($cardeneta->mix_id == 12)
-                                        DNL
-                                    @elseif($cardeneta->mix_id == 13)
-                                        Educação Física
-                                    @endif
-                                </td>
+                                <td>{{ $cardeneta->disciplina }}</td>
                                 <td>
                                     @if ($cardeneta->classe == 1)
                                         10 A
@@ -100,7 +72,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a target="blank" href="/professor/imprimir_cardeneta/{{$cardeneta->liceu}}/{{$cardeneta->mix_id}}/{{$cardeneta->classe}}/{{$cardeneta->created_at}}/{{$cardeneta->trimestre_id}}"> <i class="fa-solid fa-eye"></i> Ver Caderneta</a></li>
+                                            <li><a target="blank" href="/professor/imprimir_cardeneta/{{$cardeneta->liceu}}/{{$cardeneta->mix_id}}/{{$cardeneta->classe}}/{{$cardeneta->trimestre_id}}"> <i class="fa-solid fa-eye"></i> Ver Caderneta</a></li>
                                         </ul>
                                     </div>
 
