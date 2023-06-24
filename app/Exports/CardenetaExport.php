@@ -196,6 +196,7 @@ class CardenetaExport implements FromView, WithEvents
                 $prova->mac = $media_notas;
                 $prova->prova_professor = $prova_professor ? $prova_professor->nota : 0;
                 $prova->ct = ($prova->prova_professor + $media_notas)/2;
+                $prova->mt = ($prova->mac + $prova->prova_professor + $prova->ct)/3;
                 $provas[]=$prova;
 
             }

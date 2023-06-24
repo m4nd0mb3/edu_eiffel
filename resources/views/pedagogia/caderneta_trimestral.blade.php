@@ -153,7 +153,7 @@
                         {{$item->ct}}
                     </td>
                     <td>
-                        ---
+                        {{$item->mt}}
                     </td>
                 @endforeach
             </tr>
