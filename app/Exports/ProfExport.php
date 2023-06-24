@@ -66,6 +66,7 @@ class ProfExport implements FromView, WithEvents
             ->where('d_marks.liceu', '=', $this->liceu)
             ->where('d_marks.classe', '=', $this->classe)
             ->where('d_marks.professor_id', '=', $id)
+            ->where('tipo_id', '=', 1)
             ->groupBy('estudantes.id', 'estudantes.name')
             ->get();
         
@@ -86,6 +87,7 @@ class ProfExport implements FromView, WithEvents
             ->where('liceu', '=', $this->liceu)
             ->where('classe', '=', $this->classe)
             ->where('professor_id', '=', $id)
+            ->where('tipo_id', '=', 1)
             ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
             ->orderBy(DB::raw('DATE(created_at)'))
             ->get();
@@ -94,6 +96,7 @@ class ProfExport implements FromView, WithEvents
             ->where('liceu', '=', $this->liceu)
             ->where('classe', '=', $this->classe)
             ->where('professor_id', '=', $id)
+            ->where('tipo_id', '=', 1)
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderBy(DB::raw('DATE(created_at)'))
             ->get();
@@ -130,8 +133,15 @@ class ProfExport implements FromView, WithEvents
                 }
             }
 
+            // Calcular a média das notas
+            $soma_notas = 0;
+            // foreach ($estudante_avaliacoes as $avaliacao) {
+            //     $soma_notas += $avaliacao->nota;
+            // }
+            // $media_notas = count($estudante_avaliacoes) > 0 ? $soma_notas / count($estudante_avaliacoes) : 0;
+
             $estudante->avaliacoes = $estudante_avaliacoes;
-            array_push($array, $estudante);
+            // $estudante->mac = $media_notas;
         }
 
         // foreach ($notas as $item) {

@@ -88,6 +88,9 @@
                     <td style="border: 0.05pt solid #000000; font-family: 'Times New Roman', Times, serif;">
                         {{$avaliacao->nota}}</td>
                 @endforeach
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">
+                    {{ $nota->mac }}</td>
             </tr>
         @endforeach
     </tbody>
