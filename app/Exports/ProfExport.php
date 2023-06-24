@@ -68,22 +68,87 @@ class ProfExport implements FromView, WithEvents
             ->where('d_marks.professor_id', '=', $id)
             ->groupBy('estudantes.id', 'estudantes.name')
             ->get();
+        
+        $max_avaliacao = DB::table(function ($query) use ($id) {
+            $query->select(DB::raw('COUNT(*) AS total_linhas'))
+                ->from('d_marks')
+                ->where('liceu', '=', $this->liceu)
+                ->where('classe', '=', $this->classe)
+                ->where('professor_id', '=', $id)
+                ->where('tipo_id', '=', 1)
+                ->groupBy(DB::raw('DATE(created_at)'));
+        }, 'subconsulta')
+            ->select(DB::raw('COUNT(*) AS total_provas'))
+            ->first();
+
+        $avaliacoes = DB::table('d_marks')
+            ->select(DB::raw('DATE(created_at) as data'), 'nota', 'estudante_id', DB::raw('count(*) as total_provas'))
+            ->where('liceu', '=', $this->liceu)
+            ->where('classe', '=', $this->classe)
+            ->where('professor_id', '=', $id)
+            ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
+            ->orderBy(DB::raw('DATE(created_at)'))
+            ->get();
+        $datas_avaliacao = DB::table('d_marks')
+            ->select(DB::raw('DATE(created_at) as data'))
+            ->where('liceu', '=', $this->liceu)
+            ->where('classe', '=', $this->classe)
+            ->where('professor_id', '=', $id)
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy(DB::raw('DATE(created_at)'))
+            ->get();
+
+        // $datas_avaliacao = []; // Array para armazenar as datas de avaliação existentes
+        // foreach ($avaliacoes as $avaliacao) {
+        //     $datas_avaliacao[] = $avaliacao->data;
+        // }
 
         foreach ($notas as $item) {
             $estudante = new stdClass();
             $estudante->nome_estudante = $item->nome_estudante;
-            $avaliacoes = DB::table('d_marks')
-                ->select(DB::raw('DATE(created_at) as data'), 'nota', 'estudante_id', DB::raw('count(*) as total_provas'))
-                ->where('liceu', '=', $this->liceu)
-                ->where('classe', '=', $this->classe)
-                ->where('professor_id', '=', $id)
-                ->where('estudante_id', '=', $item->id)
-                ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
-                ->orderBy(DB::raw('DATE(created_at)'))
-                ->get();
-            $estudante->avaliacoes = $avaliacoes;
+
+            $estudante_avaliacoes = [];
+            foreach ($datas_avaliacao as $data_avaliacao) {
+                $avaliacao_encontrada = false;
+
+                foreach ($avaliacoes as $avaliacao) {
+                    if ($avaliacao->estudante_id == $item->id && $avaliacao->data == $data_avaliacao->data) {
+                        $estudante_avaliacoes[] = $avaliacao;
+                        $avaliacao_encontrada = true;
+                        break;
+                    }
+                }
+
+                if (!$avaliacao_encontrada) {
+                    // Adicionar avaliação com nota 0 para o aluno e a data de avaliação atual
+                    $avaliacao_nula = new stdClass();
+                    $avaliacao_nula->data = $data_avaliacao->data;
+                    $avaliacao_nula->nota = 0;
+                    $avaliacao_nula->estudante_id = $item->id;
+                    $avaliacao_nula->total_provas = 0;
+                    $estudante_avaliacoes[] = $avaliacao_nula;
+                }
+            }
+
+            $estudante->avaliacoes = $estudante_avaliacoes;
             array_push($array, $estudante);
         }
+
+        // foreach ($notas as $item) {
+        //     $estudante = new stdClass();
+        //     $estudante->nome_estudante = $item->nome_estudante;
+        //     $avaliacoes = DB::table('d_marks')
+        //         ->select(DB::raw('DATE(created_at) as data'), 'nota', 'estudante_id', DB::raw('count(*) as total_provas'))
+        //         ->where('liceu', '=', $this->liceu)
+        //         ->where('classe', '=', $this->classe)
+        //         ->where('professor_id', '=', $id)
+        //         ->where('estudante_id', '=', $item->id)
+        //         ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
+        //         ->orderBy(DB::raw('DATE(created_at)'))
+        //         ->get();
+        //     $estudante->avaliacoes = $avaliacoes;
+        //     array_push($array, $estudante);
+        // }
         // print_r($array);
 
         // $notas = DB::table('d_marks')
@@ -124,7 +189,8 @@ class ProfExport implements FromView, WithEvents
             'professor.caderneta_trimestral_disciplina',
             [
                 'notas' => $array,
-                'turma' => $classes[$this->classe]
+                'turma' => $classes[$this->classe],
+                'max_avaliacao' => $max_avaliacao->total_provas
             ]
         );
 
