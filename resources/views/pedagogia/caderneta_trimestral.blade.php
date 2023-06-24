@@ -41,7 +41,7 @@
                 >
                 <p>PAUTA DO LICEU  EIFFEL DE MALANJE</p>
                 <p>ANO LECTIVO 2022-2023</p>
-                <p>I TRIMESTRE</p>
+                <p>{{$trimestre_nome}}</p>
                 <p>10ª CLASSE</p>
             </th>
             <th  style="text-align: center; font-weight: bold;"></th>
@@ -49,7 +49,7 @@
 
             <th colspan="16" style="text-align: center; font-weight: bold;">FORMAÇÃO ESPECIFICA</th>
             <th colspan="4" style="text-align: center; font-weight: bold; width: 200px;">OPÇÕES</th>
-            <th rowspan="3" style="text-align: center; font-weight: bold; width: 200px;">MEDIA DO 1º TRIMESTRE</th>
+            <th rowspan="3" style="text-align: center; font-weight: bold; width: 200px;">MEDIA DO {{$trimestre_nome}}</th>
             <th colspan="3" style="text-align: center; font-weight: bold; width: 200px;">FALTAS</th>
         </tr>
 
@@ -60,85 +60,84 @@
         writing-mode: vertical-rl;
         transform: rotate(180deg);
         white-space: nowrap;
-                ">10ª A e B</th>
-            <th colspan="4">L. PORTUGUESA</th>
-            <th colspan="4">L. INGLESA</th>
-            <th colspan="4">L. FRANCESA</th>
-            <th colspan="4">MATEMÁTICA</th>
-            <th colspan="4">INFORMATICA</th>
-            <th colspan="4">ED. FISICA</th>
-            <th colspan="4">FISICA</th>
-            <th colspan="4">QUIMICA</th>
-            <th colspan="4">BIOLOGIA</th>
-            <th colspan="4">GEOMETRIA DESCRITIVA</th>
-            <th colspan="4">DNL</th>
-            <th rowspan="2">ATRASOS</th>
-            <th rowspan="2">TOTAL DE FALTAS</th>
-            <th rowspan="2">F. JUSTIFICADAS</th>
+                ">{{$turma}}</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. PORTUGUESA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. INGLESA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">L. FRANCESA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MATEMÁTICA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">INFORMATICA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">ED. FISICA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">FISICA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">QUIMICA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">BIOLOGIA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">GEOMETRIA DESCRITIVA</th>
+            <th colspan="4" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">DNL</th>
+            <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">ATRASOS</th>
+            <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">TOTAL DE FALTAS</th>
+            <th rowspan="2" style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">F. JUSTIFICADAS</th>
 
 
         </tr>
         <tr>
-            <th>Nº</th>
-            <th>NOME</th>
-            <th>T</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
-            <th>MAC</th>
-            <th>NPP</th>
-            <th>NPT</th>
-            <th>MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">Nº</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NOME</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">T</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MAC</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPP</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">NPT</th>
+            <th style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif;">MT</th>
         </tr>
     </thead>
     <tbody>
-        {{-- @foreach ($dados as $dado)
+        @foreach ($notas as $nota)
             <tr>
-                <td>{{ $dado['numero'] }}</td>
-                <td>{{ $dado['nome'] }}</td>
-                <td>{{ $dado['t'] }}</td>
-                <td>{{ $dado['mac'] }}</td>
-                <td>{{ $dado['npp'] }}</td>
-                <td>{{ $dado['npt'] }}</td>
+                <td
+                    style="border: 0.05pt solid #000000; text-align:center; font-family: 'Times New Roman', Times, serif; width:2cm;">
+                    {{ $loop->iteration }}</td>
+                <td style="border: 0.05pt solid #000000; font-family: 'Times New Roman', Times, serif; width:5cm;">
+                    {{ $nota->nome_estudante }}</td>
                 <!-- Adicione aqui as células das colunas restantes -->
             </tr>
-        @endforeach --}}
+        @endforeach
     </tbody>
 </table>

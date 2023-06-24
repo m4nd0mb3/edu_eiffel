@@ -66,7 +66,6 @@ class CardenetaExport implements FromView, WithEvents
             ->select('estudantes.id', 'estudantes.name as nome_estudante')
             ->where('d_marks.liceu', '=', $this->liceu)
             ->where('d_marks.classe', '=', $this->classe)
-            ->where('d_marks.professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy('estudantes.id', 'estudantes.name')
@@ -82,7 +81,6 @@ class CardenetaExport implements FromView, WithEvents
                 ->from('d_marks')
                 ->where('liceu', '=', $this->liceu)
                 ->where('classe', '=', $this->classe)
-                ->where('professor_id', '=', $id)
                 ->where('tipo_id', '=', 1)
                 ->where('trimestre_id', '=', $this->trimestre_id)
                 ->groupBy(DB::raw('DATE(created_at)'));
@@ -94,7 +92,6 @@ class CardenetaExport implements FromView, WithEvents
             ->select(DB::raw('DATE(created_at) as data'), 'nota', 'estudante_id', DB::raw('count(*) as total_provas'))
             ->where('liceu', '=', $this->liceu)
             ->where('classe', '=', $this->classe)
-            ->where('professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
@@ -104,7 +101,6 @@ class CardenetaExport implements FromView, WithEvents
             ->select(DB::raw('DATE(created_at) as data'))
             ->where('liceu', '=', $this->liceu)
             ->where('classe', '=', $this->classe)
-            ->where('professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy(DB::raw('DATE(created_at)'))
@@ -120,52 +116,52 @@ class CardenetaExport implements FromView, WithEvents
             $estudante = new stdClass();
             $estudante->nome_estudante = $item->nome_estudante;
 
-            $estudante_avaliacoes = [];
-            foreach ($datas_avaliacao as $data_avaliacao) {
-                $avaliacao_encontrada = false;
+            // $estudante_avaliacoes = [];
+            // foreach ($datas_avaliacao as $data_avaliacao) {
+            //     $avaliacao_encontrada = false;
 
-                foreach ($avaliacoes as $avaliacao) {
-                    if ($avaliacao->estudante_id == $item->id && $avaliacao->data == $data_avaliacao->data) {
-                        $estudante_avaliacoes[] = $avaliacao;
-                        $avaliacao_encontrada = true;
-                        break;
-                    }
-                }
+            //     foreach ($avaliacoes as $avaliacao) {
+            //         if ($avaliacao->estudante_id == $item->id && $avaliacao->data == $data_avaliacao->data) {
+            //             $estudante_avaliacoes[] = $avaliacao;
+            //             $avaliacao_encontrada = true;
+            //             break;
+            //         }
+            //     }
 
-                if (!$avaliacao_encontrada) {
-                    // Adicionar avaliação com nota 0 para o aluno e a data de avaliação atual
-                    $avaliacao_nula = new stdClass();
-                    $avaliacao_nula->data = $data_avaliacao->data;
-                    $avaliacao_nula->nota = 0;
-                    $avaliacao_nula->estudante_id = $item->id;
-                    $avaliacao_nula->total_provas = 0;
-                    $estudante_avaliacoes[] = $avaliacao_nula;
-                }
-            }
+            //     if (!$avaliacao_encontrada) {
+            //         // Adicionar avaliação com nota 0 para o aluno e a data de avaliação atual
+            //         $avaliacao_nula = new stdClass();
+            //         $avaliacao_nula->data = $data_avaliacao->data;
+            //         $avaliacao_nula->nota = 0;
+            //         $avaliacao_nula->estudante_id = $item->id;
+            //         $avaliacao_nula->total_provas = 0;
+            //         $estudante_avaliacoes[] = $avaliacao_nula;
+            //     }
+            // }
 
             // Calcular a média das notas
-            $soma_notas = 0;
-            foreach ($estudante_avaliacoes as $avaliacao) {
-                $soma_notas += $avaliacao->nota;
-            }
-            $media_notas = count($estudante_avaliacoes) > 0 ? $soma_notas / count($estudante_avaliacoes) : 0;
+            // $soma_notas = 0;
+            // foreach ($estudante_avaliacoes as $avaliacao) {
+            //     $soma_notas += $avaliacao->nota;
+            // }
+            // $media_notas = count($estudante_avaliacoes) > 0 ? $soma_notas / count($estudante_avaliacoes) : 0;
 
-            $prova_professor = DB::table('d_marks')
-                ->select('estudante_id', 'nota', DB::raw('count(*) as total_provas'), DB::raw('MAX(id) as max_id'))
-                ->where('liceu', '=', $this->liceu)
-                ->where('classe', '=', $this->classe)
-                ->where('professor_id', '=', $id)
-                ->where('tipo_id', '=', 2)
-                ->where('trimestre_id', '=', $this->trimestre_id)
-                ->where('estudante_id', '=', $item->id)
-                ->groupBy('estudante_id', 'nota', 'trimestre_id', 'tipo_id', 'classe', 'liceu', 'professor_id')
-                ->orderByDesc('max_id')
-                ->first();
+            // $prova_professor = DB::table('d_marks')
+            //     ->select('estudante_id', 'nota', DB::raw('count(*) as total_provas'), DB::raw('MAX(id) as max_id'))
+            //     ->where('liceu', '=', $this->liceu)
+            //     ->where('classe', '=', $this->classe)
+            //     ->where('professor_id', '=', $id)
+            //     ->where('tipo_id', '=', 2)
+            //     ->where('trimestre_id', '=', $this->trimestre_id)
+            //     ->where('estudante_id', '=', $item->id)
+            //     ->groupBy('estudante_id', 'nota', 'trimestre_id', 'tipo_id', 'classe', 'liceu', 'professor_id')
+            //     ->orderByDesc('max_id')
+            //     ->first();
 
-            $estudante->avaliacoes = $estudante_avaliacoes;
-            $estudante->mac = $media_notas;
-            $estudante->prova_professor = $prova_professor ? $prova_professor->nota : 0;
-            $estudante->ct = ($estudante->prova_professor + $media_notas)/2;
+            // $estudante->avaliacoes = $estudante_avaliacoes;
+            // $estudante->mac = $media_notas;
+            // $estudante->prova_professor = $prova_professor ? $prova_professor->nota : 0;
+            // $estudante->ct = ($estudante->prova_professor + $media_notas)/2;
             array_push($array, $estudante);
         }
 
