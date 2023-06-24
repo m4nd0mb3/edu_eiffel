@@ -142,7 +142,20 @@
                     {{ $nota->nome_estudante }}</td>
                 <td style="border: 0.05pt solid #000000; font-family: 'Times New Roman', Times, serif; width:1cm;">
                     {{$turma}}</td>
-                <!-- Adicione aqui as células das colunas restantes -->
+                @foreach ($nota->avaliacoes as $item)
+                    <td>
+                        {{$item->mac}}
+                    </td>
+                    <td>
+                        {{$item->prova_professor}}
+                    </td>
+                    <td>
+                        {{$item->ct}}
+                    </td>
+                    <td>
+                        ---
+                    </td>
+                @endforeach
             </tr>
         @endforeach
     </tbody>
