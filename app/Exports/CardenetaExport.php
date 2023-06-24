@@ -66,7 +66,6 @@ class CardenetaExport implements FromView, WithEvents
             ->select('estudantes.id', 'estudantes.name as nome_estudante')
             ->where('d_marks.liceu', '=', $this->liceu)
             ->where('d_marks.classe', '=', $this->classe)
-            ->where('d_marks.professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy('estudantes.id', 'estudantes.name')
@@ -82,7 +81,6 @@ class CardenetaExport implements FromView, WithEvents
                 ->from('d_marks')
                 ->where('liceu', '=', $this->liceu)
                 ->where('classe', '=', $this->classe)
-                ->where('professor_id', '=', $id)
                 ->where('tipo_id', '=', 1)
                 ->where('trimestre_id', '=', $this->trimestre_id)
                 ->groupBy(DB::raw('DATE(created_at)'));
@@ -94,7 +92,6 @@ class CardenetaExport implements FromView, WithEvents
             ->select(DB::raw('DATE(created_at) as data'), 'nota', 'estudante_id', DB::raw('count(*) as total_provas'))
             ->where('liceu', '=', $this->liceu)
             ->where('classe', '=', $this->classe)
-            ->where('professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
@@ -104,7 +101,6 @@ class CardenetaExport implements FromView, WithEvents
             ->select(DB::raw('DATE(created_at) as data'))
             ->where('liceu', '=', $this->liceu)
             ->where('classe', '=', $this->classe)
-            ->where('professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy(DB::raw('DATE(created_at)'))
@@ -115,6 +111,51 @@ class CardenetaExport implements FromView, WithEvents
         // foreach ($avaliacoes as $avaliacao) {
         //     $datas_avaliacao[] = $avaliacao->data;
         // }
+        $disciplinas = [];
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%L. Portuguesa%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Inglês%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Francês%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Matematica%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Informática%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Educação Física%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Fisica%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Quimica%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Biologia%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%Geometria Descritiva%')
+            ->first();
+        $disciplinas[] = DB::table('disciplinas')
+            ->select('id','disciplina')
+            ->where('disciplina', 'like', '%DNL%')
+            ->first();
 
         foreach ($notas as $item) {
             $estudante = new stdClass();
@@ -154,7 +195,6 @@ class CardenetaExport implements FromView, WithEvents
                 ->select('estudante_id', 'nota', DB::raw('count(*) as total_provas'), DB::raw('MAX(id) as max_id'))
                 ->where('liceu', '=', $this->liceu)
                 ->where('classe', '=', $this->classe)
-                ->where('professor_id', '=', $id)
                 ->where('tipo_id', '=', 2)
                 ->where('trimestre_id', '=', $this->trimestre_id)
                 ->where('estudante_id', '=', $item->id)
@@ -185,7 +225,7 @@ class CardenetaExport implements FromView, WithEvents
                 'turma' => $classes[$this->classe],
                 'max_avaliacao' => $max_avaliacao->total_provas,
                 'trimestre_nome' => $trimestre->trimestre,
-                'nome_disciplina' => $disciplina->nome_disciplina
+                'disciplinas' => $disciplinas
             ]
         );
 
