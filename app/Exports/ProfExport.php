@@ -70,6 +70,7 @@ class ProfExport implements FromView, WithEvents
             ->where('d_marks.classe', '=', $this->classe)
             ->where('d_marks.professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
+            ->where('mix_id', '=', $this->mix_id)
             ->where('trimestre_id', '=', $this->trimestre_id)
             ->groupBy('estudantes.id', 'estudantes.name')
             ->get();
@@ -88,6 +89,7 @@ class ProfExport implements FromView, WithEvents
                 ->where('professor_id', '=', $id)
                 ->where('tipo_id', '=', 1)
                 ->where('trimestre_id', '=', $this->trimestre_id)
+                ->where('mix_id', '=', $this->mix_id)
                 ->groupBy(DB::raw('DATE(created_at)'));
         }, 'subconsulta')
             ->select(DB::raw('COUNT(*) AS total_provas'))
@@ -100,6 +102,7 @@ class ProfExport implements FromView, WithEvents
             ->where('professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
+            ->where('mix_id', '=', $this->mix_id)
             ->groupBy(DB::raw('DATE(created_at)'), 'nota', 'estudante_id')
             ->orderBy(DB::raw('DATE(created_at)'))
             ->get();
@@ -110,6 +113,7 @@ class ProfExport implements FromView, WithEvents
             ->where('professor_id', '=', $id)
             ->where('tipo_id', '=', 1)
             ->where('trimestre_id', '=', $this->trimestre_id)
+            ->where('mix_id', '=', $this->mix_id)
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderBy(DB::raw('DATE(created_at)'))
             ->get();
@@ -160,6 +164,7 @@ class ProfExport implements FromView, WithEvents
                 ->where('professor_id', '=', $id)
                 ->where('tipo_id', '=', 2)
                 ->where('trimestre_id', '=', $this->trimestre_id)
+                ->where('mix_id', '=', $this->mix_id)
                 ->where('estudante_id', '=', $item->id)
                 ->groupBy('estudante_id', 'nota', 'trimestre_id', 'tipo_id', 'classe', 'liceu', 'professor_id')
                 ->orderByDesc('max_id')
