@@ -39,7 +39,7 @@
               <div class="icon">
                 <i class="fa-regular fa-folder"></i>
               </div>
-              <a href="/pedagogia/imprimir_boletim/{{ $plano->classe}}" class="small-box-footer">Imprimir <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="/pedagogia/listar_cardeneta/{{$plano->liceu}}" class="small-box-footer">Imprimir <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 

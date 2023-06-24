@@ -44,6 +44,8 @@ Route::prefix('pedagogia')->name('pedagogia.')->group(function(){
       Route::post('/falta_professor',[PedagogicoController::class,'falta_professor'])->name('falta_professor');
       Route::get('/ver_falta_professor/{id}',[PedagogicoController::class,'ver_falta_professor'])->name('ver_falta_professor');
       Route::get('/ver_info_falta_professor/{liceu}/{id}',[PedagogicoController::class,'ver_info_falta_professor'])->name('ver_info_falta_professor');
+      Route::get('/imprimir_cardeneta/{liceu}/{classe}/{trimestre_id}', [PedagogicoController::class, 'imprimir_cardeneta'])->name('imprimir_cardeneta');
+      Route::get('/listar_cardeneta/{liceu}', [PedagogicoController::class, 'listar_cardeneta'])->name('listar_cardeneta');
 
       Route::get('/declaracoes_professores',[PedagogicoController::class,'declaracoes_professores'])->name('declaracoes_professores');
       Route::get('/orientacoes_enviadas',[PedagogicoController::class,'orientacoes_enviadas'])->name('orientacoes_enviadas');
