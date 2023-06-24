@@ -742,7 +742,7 @@ class ProfessorController extends Controller
         $cardenetas = DB::table('d_marks')
             // ->join('liceus', 'liceus.id', '=', 'd_marks.liceu')
             // ->join('classes', 'classes.id', '=', 'd_marks.classe')
-            ->join('mix_d_p_s', 'mix_d_p_s.id', '=', 'd_marks.mix_id')
+            ->join('mix_d_p_s', 'mix_d_p_s.disciplina_id', '=', 'd_marks.mix_id')
             ->join('disciplinas', 'disciplinas.id', '=', 'mix_d_p_s.disciplina_id')
             ->select('disciplinas.disciplina as disciplina','d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe', 'd_marks.mix_id', DB::raw('count(*) as total_provas'))
             ->where('d_marks.liceu', '=', $liceu)
