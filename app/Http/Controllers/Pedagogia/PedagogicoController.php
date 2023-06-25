@@ -1455,7 +1455,7 @@ function ver_nota_pct(){
         // return view('pedagogia.caderneta_trimestral', ['provas'=>1]);
     }
 
-    public function listar_cardeneta($liceu) {
+    public function listar_cardeneta($liceu, $classe) {
         $id = Auth::id();
 
         $cardenetas = DB::table('d_marks')
@@ -1463,6 +1463,7 @@ function ver_nota_pct(){
             // ->join('classes', 'classes.id', '=', 'd_marks.classe')
             ->select('d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe', DB::raw('count(*) as total_provas'))
             ->where('d_marks.liceu', '=', $liceu)
+            ->where('d_marks.classe', '=', $classe)
             ->groupBy('d_marks.trimestre_id', 'd_marks.liceu', 'd_marks.classe')
             ->get();
 
