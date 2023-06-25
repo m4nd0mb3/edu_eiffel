@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Estudante;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -19,6 +20,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithDrawings;
+use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -31,7 +33,7 @@ use Maatwebsite\Excel\Columns\Column;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
-class CardenetaExport implements FromView, WithEvents
+class CardenetaExport implements FromView, WithEvents, ShouldAutoSize, WithStyles   
 {
     use Exportable;
     /**
@@ -126,6 +128,7 @@ class CardenetaExport implements FromView, WithEvents
             $provas = [];
             $estudante = new stdClass();
             $estudante->nome_estudante = $item->nome_estudante;
+            $media_trimestral = 0;
             foreach ($disciplinas as $disciplina){
                 $avaliacoes = DB::table('d_marks')
                     ->select(DB::raw('DATE(created_at) as data'), 'nota', 'estudante_id', DB::raw('count(*) as total_provas'))
@@ -193,15 +196,17 @@ class CardenetaExport implements FromView, WithEvents
 
                 // $estudante->avaliacoes = $estudante_avaliacoes;
                 $prova = new stdClass();
-                $prova->mac = $media_notas;
-                $prova->prova_professor = $prova_professor ? $prova_professor->nota : 0;
-                $prova->ct = ($prova->prova_professor + $media_notas)/2;
-                $prova->mt = ($prova->mac + $prova->prova_professor + $prova->ct)/3;
+                $prova->mac = round($media_notas, 2);
+                $prova->prova_professor = round($prova_professor ? $prova_professor->nota : 0, 2);
+                $prova->ct = round(($prova->prova_professor + $media_notas)/2, 2);
+                $prova->mt = round(($prova->mac + $prova->prova_professor + $prova->ct)/3, 2);
+                $media_trimestral += $prova->mt;
                 $provas[]=$prova;
 
             }
             // array_push($estudante, $provas);
             $estudante->avaliacoes = $provas;
+            $estudante->media_trimestral = round($media_trimestral/11,2);
             array_push($array, $estudante);
         }
 
@@ -214,13 +219,18 @@ class CardenetaExport implements FromView, WithEvents
             6 => '12 B'
         ];
 
+        $date = new DateTime();
+        $dateFormatted = $date->format('d \d\e F \d\e Y');
+
         return view(
             'pedagogia.caderneta_trimestral',
             [
                 'notas' => $array,
                 'turma' => $classes[$this->classe],
                 'trimestre_nome' => $trimestre->trimestre,
-                'disciplinas' => $disciplinas
+                'imagePath' => public_path("gelo/img/rede.png"),
+                'disciplinas' => $disciplinas,
+                'today' => $dateFormatted
             ]
         );
 
@@ -231,6 +241,8 @@ class CardenetaExport implements FromView, WithEvents
         return [
 
             AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet;
+                $this->addFormulas($event->sheet);
 
                 $event->sheet->getStyle('A1:D1')->applyFromArray(
                     [
@@ -252,5 +264,46 @@ class CardenetaExport implements FromView, WithEvents
 
 
         ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle('A1:AZ100')->getFont()->setName('Times New Roman');
+        $sheet->getStyle('C2')->getAlignment()->setTextRotation(90)->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getStyle('AV1')->getAlignment()->setTextRotation(90)->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getStyle('D2:AY2')->getAlignment()->setTextRotation(90)->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getStyle('D3:AU3')->getAlignment()->setTextRotation(90)->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        // Obtém a data atual
+        // $date = new DateTime();
+        // $dateFormatted = $date->format('d \de F \de Y');
+
+        // // Define a data formatada na célula P59:AB59
+        // $sheet->setCellValue('P59', 'Liceu Eiffel, '.$dateFormatted);
+        // $sheet->mergeCells('P59:AB59');
+
+        // Formata a célula para exibir a data corretamente
+        // $sheet->getStyle('P59:AB59')->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+    }
+
+    public function addFormulas(Sheet $sheet)
+    {
+        // Adicionar fórmulas nas células para realizar os cálculos
+        // ...
+        // $columns = ['A', 'B', 'C'];
+        // $rowIndex = 15;
+
+        // foreach ($columns as $column) {
+        //     $cell = $column . $rowIndex;
+        //     $range = $column . '1:' . $column . '10';
+        //     $formula = '=AVERAGE(' . $range . ')';
+        //     $sheet->setCellValue($cell, $formula);
+        // }
+
+        // Exemplo de como adicionar uma fórmula em uma célula:
+        // $sheet->setCellValue('A2', '=SUM(B2:C2)');
+
+        // Defina as fórmulas para as outras células conforme necessário
+        // ...
     }
 }
